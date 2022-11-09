@@ -3,3 +3,71 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+body {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1E1E1E;
+}
+
+.checkboard {
+    display: grid;
+    grid-template-columns: repeat(10, min-content);
+    grid-template-rows: repeat(10, min-content);
+
+    .pieces {
+        height: 4vw;
+        width: 4vw;
+        display: grid;
+        justify-items: center;
+        align-items: center;
+        background-color: rgb(245, 238, 220);
+
+        @for $i from 1 through 10 {
+            @for $j from 1 through 10 {
+                @if $i % 2 == 0 {
+                    @if $j % 2 == 1 {
+                        &:nth-child(#{($i - 1)*10 + $j}) {
+                            background-color: black;
+                        }
+                    }
+                } @else {
+                    @if $j % 2 == 0 {
+                        &:nth-child(#{($i - 1)*10 + $j}) {
+                            background-color: black;
+                        }                      
+                    }
+                }
+            }
+        }
+
+        > * {
+            height: 85%;
+            width: 85%;
+            border-radius: 50%;
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .light-piece {
+            background-color: burlywood;
+            opacity: 0;
+        }
+
+        .brown-piece {
+            background-color: brown;
+            opacity: 0;
+        }
+
+        &.light .light-piece{
+            opacity: 1;
+        }
+
+        &.brown .brown-piece {
+            opacity: 1;
+        }
+    }
+}
