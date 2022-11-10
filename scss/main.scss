@@ -101,6 +101,7 @@ body {
         }
 
         > * {
+            position: relative;
             height: 85%;
             width: 85%;
             border-radius: 50%;
@@ -118,12 +119,27 @@ body {
             opacity: 0;
         }
 
-        &.light .light-piece{
+        &.light .light-piece {
             opacity: 1;
         }
 
         &.preview-light .light-piece {
             opacity: 0.3;
+        }
+
+        &.light-queen .light-piece {
+            opacity: 1;
+
+            &::before {
+                content: '';
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                background-image: url(../src/img/crown.png);
+                background-size: contain;
+                filter: brightness(80%);
+                scale: 0.7;
+            }
         }
 
         &.brown .brown-piece {
@@ -132,6 +148,21 @@ body {
 
         &.preview-brown .brown-piece {
             opacity: 0.5;
+        }
+
+        &.brown-queen .brown-piece {
+            opacity: 1;
+
+            &::before {
+                content: '';
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                background-image: url(../src/img/crown.png);
+                background-size: contain;
+                opacity: 0.4;
+                scale: 0.7;
+            }
         }
     }
 }

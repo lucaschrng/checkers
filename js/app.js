@@ -28,11 +28,14 @@ for (let i = 0; i < boardSize; i++) {
 
 let tiles = document.querySelectorAll('.tile');
 let whiteTurn = true;
+let oppositeColor;
 let previewPiece;
 let previewMoves = [];
 let lightPoints = 0;
 let brownPoints = 0;
 let gameOver = false;
+let tileStates = ['light', 'brown', 'preview-light', 'preview-brown', 'light-queen', 'brown-queen'];
+let instructionsStates = ['light-turn', 'brown-turn', 'light-win', 'brown-win'];
 
 let board = [
     // 0: unplayable tile
@@ -80,17 +83,28 @@ class Piece {
 
         let moves = []
 
-        if (this.color === 1 || this.color === 2) {
+        if (this.color === 6 || this.color === 7) {
+            this.direction = 1;
+        }
+
+        if (this.color === 1 || this.color === 2 || this.color === 6 || this.color === 7) {
     
-            if (this.row + this.direction >= 0 && this.row + this.direction <= boardSize) {
+            if (this.row + this.direction >= 0 && this.row + this.direction < boardSize) {
                 if (board[this.row + this.direction][this.column - 1] === 3) moves.push([(this.row + this.direction) * boardSize + this.column - 1]);
                 if (board[this.row + this.direction][this.column + 1] === 3) moves.push([(this.row + this.direction) * boardSize + this.column + 1]);
+            }
+
+            if (this.color === 6 || this.color === 7) {
+                if (this.row - 1 >= 0 && this.row - 1 < boardSize) {
+                    if (board[this.row - this.direction][this.column - 1] === 3) moves.push([(this.row - this.direction) * boardSize + this.column - 1]);
+                    if (board[this.row - this.direction][this.column + 1] === 3) moves.push([(this.row - this.direction) * boardSize + this.column + 1]);
+                }
             }
 
             this.getPossibleCaptures(this.row, this.column, this.color, this.direction, []).forEach(capture => {
                 moves.push(capture);
             })
-            
+
         }
 
         return moves;
@@ -98,31 +112,58 @@ class Piece {
 
     getPossibleCaptures(row, column, color, direction, path) {
 
-        let oppositeColor = color === 1 ? 2:1;
+        oppositeColor = [];
 
-        let referencePath = path;
+        if (color === 1 || color === 6) {
+            oppositeColor = [2, 7]
+        }
+        if (color === 2 || color === 7) {
+            oppositeColor = [1, 6]
+        }
 
         let possibleCaptures = [];
         let possibleCaptures2 = [];
 
         if (row + direction * 2 >= 0 && row + direction * 2 < boardSize) {
 
-            if (column - 1 >=  0 && column - 1 < boardSize)
-            if (board[row + direction][column - 1] === oppositeColor) {
-                if (board[row + direction * 2][column - 2] === 3) possibleCaptures.push(referencePath.concat([(row + direction * 2) * boardSize + column - 2]));
+            if (column - 2 >=  0 && column - 2 < boardSize) {
+                if (oppositeColor.includes(board[row + direction][column - 1])) {
+                    if (board[row + direction * 2][column - 2] === 3 && !path.includes((row + direction * 2) * boardSize + column - 2)) possibleCaptures.push(path.concat([(row + direction * 2) * boardSize + column - 2]));
+                }
             }
-            if (board[row + direction][column + 1] === oppositeColor) {
-                if (board[row + direction * 2][column + 2] === 3) possibleCaptures.push(referencePath.concat([(row + direction * 2) * boardSize + column + 2]));
+    
+            if (column + 2 >=  0 && column + 2 < boardSize) {
+                if (oppositeColor.includes(board[row + direction][column + 1])) {
+                    if (board[row + direction * 2][column + 2] === 3 && !path.includes((row + direction * 2) * boardSize + column + 2)) possibleCaptures.push(path.concat([(row + direction * 2) * boardSize + column + 2]));
+                }
             }
+        }
+        
+        if (color === 6 || color === 7) {
 
-            if (possibleCaptures !== []) {
-                possibleCaptures.forEach(capture => {
-                    let testPiece = new Piece(capture[capture.length - 1]);
-                    testPiece.getPossibleCaptures(testPiece.row, testPiece.column, color, direction, capture).forEach(capture2 => {
-                        possibleCaptures2.push(capture2);
-                    })
-                })
+            if (row - direction * 2 >= 0 && row - direction * 2 < boardSize) {
+                
+            if (column - 2 >=  0 && column - 2 < boardSize) {
+                if (oppositeColor.includes(board[row - direction][column - 1])) {
+                    if (board[row - direction * 2][column - 2] === 3 && !path.includes((row - direction * 2) * boardSize + column - 2)) possibleCaptures.push(path.concat([(row - direction * 2) * boardSize + column - 2]));
+                }
             }
+    
+            if (column + 2 >=  0 && column + 2 < boardSize) {
+                if (oppositeColor.includes(board[row - direction][column + 1])) {
+                    if (board[row - direction * 2][column + 2] === 3 && !path.includes((row - direction * 2) * boardSize + column + 2)) possibleCaptures.push(path.concat([(row - direction * 2) * boardSize + column + 2]));
+                }
+            }
+            }
+        }
+
+        if (possibleCaptures !== []) {
+            possibleCaptures.forEach((capture) => {
+                let testPiece = new Piece(capture[capture.length - 1]);
+                testPiece.getPossibleCaptures(testPiece.row, testPiece.column, color, direction, capture).forEach(capture2 => {
+                    possibleCaptures2.push(capture2);
+                })
+            })
         }
 
         possibleCaptures2.forEach(capture => {
@@ -147,8 +188,9 @@ tiles.forEach((tile, index) => {
             } else {
                 selecetdPiece = new Piece(index);
     
-                if ((selecetdPiece.color === 1 && whiteTurn) || (selecetdPiece.color === 2 && !whiteTurn)) {
+                if (((selecetdPiece.color === 1 || selecetdPiece.color === 6) && whiteTurn) || ((selecetdPiece.color === 2 || selecetdPiece.color === 7) && !whiteTurn)) {
                     piece = selecetdPiece;
+                    console.log(piece.possibleMoves);
                     preview();
                 }
             }
@@ -193,29 +235,35 @@ function play(pieceA, pointB) {
 
     departurePiece = new Piece(pieceA.index);
 
+    let movingPath = [];
+
     pieceA.possibleMoves.forEach(moves => {
-        if (moves.includes(pointB)) {
-            moves.forEach(move => {
-
-                move = new Piece(move);
-
-                board[departurePiece.row][departurePiece.column] = 3;
-                board[move.row][move.column] = pieceA.color;
-
-                if (Math.abs(departurePiece.row - move.row) > 1) {
-                    let targetRow = (departurePiece.row + move.row) / 2;
-                    let targetColumn = (departurePiece.column + move.column) / 2;
-    
-                    board[targetRow][targetColumn] = 3;
-                }
-            
-                previewMoves = [];
-
-                departurePiece = move;
-            
-                updateBoard();
-            })
+        if (moves[moves.length - 1] === pointB) {
+            movingPath = moves.length > movingPath.length ? moves:movingPath;
         }
+    })
+
+    console.log(movingPath);
+
+    movingPath.forEach(move => {
+
+        move = new Piece(move);
+
+        board[departurePiece.row][departurePiece.column] = 3;
+        board[move.row][move.column] = pieceA.color;
+
+        if (Math.abs(departurePiece.row - move.row) > 1) {
+            let targetRow = (departurePiece.row + move.row) / 2;
+            let targetColumn = (departurePiece.column + move.column) / 2;
+
+            board[targetRow][targetColumn] = 3;
+        }
+    
+        previewMoves = [];
+
+        departurePiece = move;
+    
+        updateBoard();
     })
 
     whiteTurn = !whiteTurn;
@@ -231,45 +279,47 @@ function updateBoard() {
     for (let i = 0; i < boardSize; i++) {
         for (let j = 0; j < boardSize; j++) {
 
-            selector = '.piece' + (i * boardSize + j);
+            let selector = '.piece' + (i * boardSize + j);
+            let tile = document.querySelector(selector);
 
-            if (board[i][j] === 1) {
-                document.querySelector(selector).classList.add('light');
-                document.querySelector(selector).classList.remove('brown');
-                document.querySelector(selector).classList.remove('preview-light');
-                document.querySelector(selector).classList.remove('preview-brown');
-
-                lightPoints--;
+            if (board[i][j] === 1 && i === boardSize - 1) {
+                board[i][j] = 6;
+                addClass(tile, 'light-queen', tileStates);
             }
 
-            else if (board[i][j] === 2) {
-                document.querySelector(selector).classList.remove('light');
-                document.querySelector(selector).classList.add('brown');
-                document.querySelector(selector).classList.remove('preview-light');
-                document.querySelector(selector).classList.remove('preview-brown');
+            else if (board[i][j] === 2 && i === 0) {
+                board[i][j] = 7;
+                addClass(tile, 'brown-queen', tileStates);
+            }
 
+            else if (board[i][j] === 1) {
+                addClass(tile, 'light', tileStates);
                 brownPoints--;
             }
 
+            else if (board[i][j] === 2) {
+                addClass(tile, 'brown', tileStates);
+                lightPoints--;
+            }
+
             else if (board[i][j] === 4) {
-                document.querySelector(selector).classList.remove('light');
-                document.querySelector(selector).classList.remove('brown');
-                document.querySelector(selector).classList.add('preview-light');
-                document.querySelector(selector).classList.remove('preview-brown');
+                addClass(tile, 'preview-light', tileStates);
             }
 
             else if (board[i][j] === 5) {
-                document.querySelector(selector).classList.remove('light');
-                document.querySelector(selector).classList.remove('brown');
-                document.querySelector(selector).classList.remove('preview-light');
-                document.querySelector(selector).classList.add('preview-brown');
+                addClass(tile, 'preview-brown', tileStates);
+            }
+
+            else if (board[i][j] === 6) {
+                addClass(tile, 'light-queen', tileStates);
+            }
+
+            else if (board[i][j] === 7) {
+                addClass(tile, 'brown-queen', tileStates);
             }
 
             else {
-                document.querySelector(selector).classList.remove('light');
-                document.querySelector(selector).classList.remove('brown');
-                document.querySelector(selector).classList.remove('preview-light');
-                document.querySelector(selector).classList.remove('preview-brown');
+                addClass(tile, 'removeAll', tileStates);
             }
         }
     }
@@ -282,30 +332,28 @@ function updateBoard() {
     }
 }
 
+function addClass(element, classOption, classOptions) {
+    classOptions.forEach(state => {
+        if (state === classOption) {
+            element.classList.add(state);
+        } else {
+            element.classList.remove(state);
+        }
+    })
+}
+
 function updateInstructions() {
     if (!gameOver) {
         if (whiteTurn) {
-            instructions.classList.add('light-turn');
-            instructions.classList.remove('brown-turn');
-            instructions.classList.remove('light-win');
-            instructions.classList.remove('brown-win');
+            addClass(instructions, 'light-turn', instructionsStates);
         } else {
-            instructions.classList.remove('light-turn');
-            instructions.classList.add('brown-turn');
-            instructions.classList.remove('light-win');
-            instructions.classList.remove('brown-win');
+            addClass(instructions, 'brown-turn', instructionsStates);
         }
     } else {
         if (lightPoints < 15) {
-            instructions.classList.remove('light-turn');
-            instructions.classList.remove('brown-turn');
-            instructions.classList.add('light-win');
-            instructions.classList.remove('brown-win');
+            addClass(instructions, 'light-win', instructionsStates);
         } else {
-            instructions.classList.remove('light-turn');
-            instructions.classList.remove('brown-turn');
-            instructions.classList.remove('light-win');
-            instructions.classList.add('brown-win');
+            addClass(instructions, 'brown-win', instructionsStates);
         }
     }
 }

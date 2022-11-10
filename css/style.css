@@ -88,6 +88,7 @@ body main {
   background-color: black;
 }
 .checkboard .tile > * {
+  position: relative;
   height: 85%;
   width: 85%;
   border-radius: 50%;
@@ -108,11 +109,37 @@ body main {
 .checkboard .tile.preview-light .light-piece {
   opacity: 0.3;
 }
+.checkboard .tile.light-queen .light-piece {
+  opacity: 1;
+}
+.checkboard .tile.light-queen .light-piece::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-image: url(../src/img/crown.png);
+  background-size: contain;
+  filter: brightness(80%);
+  scale: 0.7;
+}
 .checkboard .tile.brown .brown-piece {
   opacity: 1;
 }
 .checkboard .tile.preview-brown .brown-piece {
   opacity: 0.5;
+}
+.checkboard .tile.brown-queen .brown-piece {
+  opacity: 1;
+}
+.checkboard .tile.brown-queen .brown-piece::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-image: url(../src/img/crown.png);
+  background-size: contain;
+  opacity: 0.4;
+  scale: 0.7;
 }
 
 /*# sourceMappingURL=style.css.map */
