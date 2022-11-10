@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 body {
@@ -29,7 +29,7 @@ body main {
   grid-area: instructions;
   color: white;
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 .instructions > * {
   grid-column: 1;
@@ -56,7 +56,7 @@ body main {
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 50%;
   scale: 0.85;
 }
@@ -89,28 +89,27 @@ body main {
 }
 .checkboard .tile > * {
   position: relative;
-  height: 85%;
-  width: 85%;
+  height: 90%;
+  width: 90%;
   border-radius: 50%;
   grid-column: 1;
   grid-row: 1;
+  border: 4px black solid;
 }
 .checkboard .tile .light-piece {
-  background-color: burlywood;
-  opacity: 0;
+  background-color: rgba(222, 184, 135, 0);
 }
 .checkboard .tile .brown-piece {
-  background-color: #472715;
-  opacity: 0;
+  background-color: rgba(71, 39, 21, 0);
 }
 .checkboard .tile.light .light-piece {
-  opacity: 1;
+  background-color: rgb(222, 184, 135);
 }
 .checkboard .tile.preview-light .light-piece {
-  opacity: 0.3;
+  background-color: rgba(222, 184, 135, 0.3);
 }
 .checkboard .tile.light-queen .light-piece {
-  opacity: 1;
+  background-color: rgb(222, 184, 135);
 }
 .checkboard .tile.light-queen .light-piece::before {
   content: "";
@@ -123,13 +122,13 @@ body main {
   scale: 0.7;
 }
 .checkboard .tile.brown .brown-piece {
-  opacity: 1;
+  background-color: rgb(71, 39, 21);
 }
 .checkboard .tile.preview-brown .brown-piece {
-  opacity: 0.5;
+  background-color: rgba(71, 39, 21, 0.5);
 }
 .checkboard .tile.brown-queen .brown-piece {
-  opacity: 1;
+  background-color: rgb(71, 39, 21);
 }
 .checkboard .tile.brown-queen .brown-piece::before {
   content: "";
@@ -140,6 +139,10 @@ body main {
   background-size: contain;
   opacity: 0.4;
   scale: 0.7;
+}
+.checkboard .tile.pointer > *, .checkboard .tile.preview-light:hover > *, .checkboard .tile.preview-brown:hover > * {
+  border: 4px green solid;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */

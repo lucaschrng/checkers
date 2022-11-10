@@ -4,7 +4,7 @@ $boardSize: 8;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
@@ -34,7 +34,7 @@ body {
     grid-area: instructions;
     color: white;
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 500;
 
     > * {
         grid-column: 1;
@@ -66,7 +66,7 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 500;
     border-radius: 50%;
     scale: 0.85;
 
@@ -102,33 +102,32 @@ body {
 
         > * {
             position: relative;
-            height: 85%;
-            width: 85%;
+            height: 90%;
+            width: 90%;
             border-radius: 50%;
             grid-column: 1;
             grid-row: 1;
+            border: 4px black solid;
         }
 
         .light-piece {
-            background-color: burlywood;
-            opacity: 0;
+            background-color: rgba(222, 184, 135, 0);
         }
 
         .brown-piece {
-            background-color: #472715;
-            opacity: 0;
+            background-color: rgba(71, 39, 21, 0);
         }
 
         &.light .light-piece {
-            opacity: 1;
+            background-color: rgba(222, 184, 135, 1);
         }
 
         &.preview-light .light-piece {
-            opacity: 0.3;
+            background-color: rgba(222, 184, 135, 0.3);
         }
 
         &.light-queen .light-piece {
-            opacity: 1;
+            background-color: rgba(222, 184, 135, 1);
 
             &::before {
                 content: '';
@@ -143,15 +142,15 @@ body {
         }
 
         &.brown .brown-piece {
-            opacity: 1;
+            background-color: rgba(71, 39, 21, 1);
         }
 
         &.preview-brown .brown-piece {
-            opacity: 0.5;
+            background-color: rgba(71, 39, 21, 0.5);
         }
 
         &.brown-queen .brown-piece {
-            opacity: 1;
+            background-color: rgba(71, 39, 21, 1);
 
             &::before {
                 content: '';
@@ -163,6 +162,15 @@ body {
                 opacity: 0.4;
                 scale: 0.7;
             }
+        }
+
+        &.pointer, &.preview-light:hover, &.preview-brown:hover {
+            
+            > * {
+                border: 4px green solid;
+                cursor: pointer;
+            }
+
         }
     }
 }

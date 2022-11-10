@@ -38,6 +38,7 @@ let tileStates = ['light', 'brown', 'preview-light', 'preview-brown', 'light-que
 let instructionsStates = ['light-turn', 'brown-turn', 'light-win', 'brown-win'];
 
 let board = [
+
     // 0: unplayable tile
     // 1: white piece
     // 2: dark piece
@@ -46,6 +47,7 @@ let board = [
     // 5: dark preview
     // 6: white queen
     // 7: dark queen
+
     // [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
     // [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
     // [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
@@ -56,6 +58,7 @@ let board = [
     // [2, 0, 2, 0, 2, 0, 2, 0, 2, 0],
     // [0, 2, 0, 2, 0, 2, 0, 2, 0, 2],
     // [2, 0, 2, 0, 2, 0, 2, 0, 2, 0]
+
     [0, 1, 0, 1, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 0, 1, 0],
     [0, 1, 0, 1, 0, 1, 0, 1],
@@ -63,7 +66,7 @@ let board = [
     [0, 3, 0, 3, 0, 3, 0, 3],
     [2, 0, 2, 0, 2, 0, 2, 0],
     [0, 2, 0, 2, 0, 2, 0, 2],
-    [2, 0, 2, 0, 2, 0, 2, 0],
+    [2, 0, 2, 0, 2, 0, 2, 0]
 ]
 
 //class initialisation
@@ -180,23 +183,42 @@ let selecetdPiece = new Piece(0);
 //add event listeners
 
 tiles.forEach((tile, index) => {
+
     tile.addEventListener('click', () => {
 
         if (!gameOver) {
             if (previewMoves.includes(index)) {
+
                 play(piece, index);
+
             } else {
+
                 selecetdPiece = new Piece(index);
     
                 if (((selecetdPiece.color === 1 || selecetdPiece.color === 6) && whiteTurn) || ((selecetdPiece.color === 2 || selecetdPiece.color === 7) && !whiteTurn)) {
                     piece = selecetdPiece;
-                    console.log(piece.possibleMoves);
                     preview();
                 }
             }
         } else {
             updateInstructions();
         }
+    })
+
+    tile.addEventListener('mouseenter', () => {
+
+        let hoverPiece = new Piece(index);
+
+        if (((hoverPiece.color === 1 || hoverPiece.color === 6) && whiteTurn) || ((hoverPiece.color === 2 || hoverPiece.color === 7) && !whiteTurn)) {
+
+            if (hoverPiece.possibleMoves.length !== 0) {
+                document.querySelector('.piece' + index).classList.add('pointer');
+            }
+        }
+    })
+
+    tile.addEventListener('mouseleave', () => {
+        document.querySelector('.piece' + index).classList.remove('pointer');
     })
 })
 
@@ -206,8 +228,6 @@ updateInstructions();
 function preview() {
 
     previewMoves = [];
-
-    updateBoard();
 
     piece.possibleMoves.forEach(moves => {
         moves.forEach(move => {
@@ -243,8 +263,6 @@ function play(pieceA, pointB) {
         }
     })
 
-    console.log(movingPath);
-
     movingPath.forEach(move => {
 
         move = new Piece(move);
@@ -273,6 +291,8 @@ function play(pieceA, pointB) {
 
 function updateBoard() {
 
+    console.log(board);
+
     lightPoints = boardSize / 2 * 3;
     brownPoints = boardSize / 2 * 3;
 
@@ -284,11 +304,13 @@ function updateBoard() {
 
             if (board[i][j] === 1 && i === boardSize - 1) {
                 board[i][j] = 6;
+                brownPoints--;
                 addClass(tile, 'light-queen', tileStates);
             }
 
             else if (board[i][j] === 2 && i === 0) {
                 board[i][j] = 7;
+                lightPoints--;
                 addClass(tile, 'brown-queen', tileStates);
             }
 
@@ -312,10 +334,12 @@ function updateBoard() {
 
             else if (board[i][j] === 6) {
                 addClass(tile, 'light-queen', tileStates);
+                brownPoints--;
             }
 
             else if (board[i][j] === 7) {
                 addClass(tile, 'brown-queen', tileStates);
+                lightPoints--;
             }
 
             else {
@@ -350,7 +374,7 @@ function updateInstructions() {
             addClass(instructions, 'brown-turn', instructionsStates);
         }
     } else {
-        if (lightPoints < 15) {
+        if (lightPoints === boardSize / 2 * 3) {
             addClass(instructions, 'light-win', instructionsStates);
         } else {
             addClass(instructions, 'brown-win', instructionsStates);
