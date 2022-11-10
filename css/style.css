@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: sans-serif;
 }
 
 body {
@@ -12,15 +13,72 @@ body {
   align-items: center;
   background-color: #1E1E1E;
 }
+body main {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr min-content 1fr;
+  grid-template-rows: min-content min-content;
+  grid-template-areas: "instructions instructions instructions" "score1 board score2";
+  justify-items: center;
+  align-items: center;
+  row-gap: 10vh;
+}
+
+.instructions {
+  display: grid;
+  grid-area: instructions;
+  color: white;
+  font-size: 2rem;
+  font-weight: 600;
+}
+.instructions > * {
+  grid-column: 1;
+  grid-row: 1;
+  opacity: 0;
+}
+.instructions.light-turn .light-turn {
+  opacity: 1;
+}
+.instructions.brown-turn .brown-turn {
+  opacity: 1;
+}
+.instructions.light-win .light-win {
+  opacity: 1;
+}
+.instructions.brown-win .brown-win {
+  opacity: 1;
+}
+
+.score {
+  height: 6.5vh;
+  width: 6.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 600;
+  border-radius: 50%;
+  scale: 0.85;
+}
+.score.light-score {
+  background-color: rgb(245, 238, 220);
+  grid-area: score1;
+}
+.score.brown-score {
+  color: white;
+  background-color: #472715;
+  grid-area: score2;
+}
 
 .checkboard {
   display: grid;
-  grid-template-columns: repeat(10, min-content);
-  grid-template-rows: repeat(10, min-content);
+  grid-template-columns: repeat(8, min-content);
+  grid-template-rows: repeat(8, min-content);
+  grid-area: board;
 }
 .checkboard .tile {
-  height: 4vw;
-  width: 4vw;
+  height: 6.5vh;
+  width: 6.5vh;
   display: grid;
   justify-items: center;
   align-items: center;
