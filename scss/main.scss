@@ -18,7 +18,7 @@ body {
     grid-template-columns: repeat(10, min-content);
     grid-template-rows: repeat(10, min-content);
 
-    .pieces {
+    .tile {
         height: 4vw;
         width: 4vw;
         display: grid;
@@ -26,22 +26,8 @@ body {
         align-items: center;
         background-color: rgb(245, 238, 220);
 
-        @for $i from 1 through 10 {
-            @for $j from 1 through 10 {
-                @if $i % 2 == 0 {
-                    @if $j % 2 == 1 {
-                        &:nth-child(#{($i - 1)*10 + $j}) {
-                            background-color: black;
-                        }
-                    }
-                } @else {
-                    @if $j % 2 == 0 {
-                        &:nth-child(#{($i - 1)*10 + $j}) {
-                            background-color: black;
-                        }                      
-                    }
-                }
-            }
+        &.black {
+            background-color: black;
         }
 
         > * {

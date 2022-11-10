@@ -18,7 +18,7 @@ body {
   grid-template-columns: repeat(10, min-content);
   grid-template-rows: repeat(10, min-content);
 }
-.checkboard .pieces {
+.checkboard .tile {
   height: 4vw;
   width: 4vw;
   display: grid;
@@ -26,175 +26,28 @@ body {
   align-items: center;
   background-color: rgb(245, 238, 220);
 }
-.checkboard .pieces:nth-child(2) {
+.checkboard .tile.black {
   background-color: black;
 }
-.checkboard .pieces:nth-child(4) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(6) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(8) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(10) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(11) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(13) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(15) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(17) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(19) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(22) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(24) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(26) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(28) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(30) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(31) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(33) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(35) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(37) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(39) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(42) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(44) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(46) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(48) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(50) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(51) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(53) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(55) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(57) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(59) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(62) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(64) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(66) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(68) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(70) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(71) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(73) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(75) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(77) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(79) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(82) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(84) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(86) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(88) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(90) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(91) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(93) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(95) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(97) {
-  background-color: black;
-}
-.checkboard .pieces:nth-child(99) {
-  background-color: black;
-}
-.checkboard .pieces > * {
+.checkboard .tile > * {
   height: 85%;
   width: 85%;
   border-radius: 50%;
   grid-column: 1;
   grid-row: 1;
 }
-.checkboard .pieces .light-piece {
+.checkboard .tile .light-piece {
   background-color: burlywood;
   opacity: 0;
 }
-.checkboard .pieces .brown-piece {
+.checkboard .tile .brown-piece {
   background-color: brown;
   opacity: 0;
 }
-.checkboard .pieces.light .light-piece {
+.checkboard .tile.light .light-piece {
   opacity: 1;
 }
-.checkboard .pieces.brown .brown-piece {
+.checkboard .tile.brown .brown-piece {
   opacity: 1;
 }
 
