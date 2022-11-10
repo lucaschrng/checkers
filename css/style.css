@@ -14,22 +14,34 @@ body {
   background-color: #1E1E1E;
 }
 body main {
-  width: 100%;
+  width: fit-content;
   display: grid;
-  grid-template-columns: 1fr min-content 1fr;
+  grid-template-columns: 1fr min-content min-content 1fr;
   grid-template-rows: min-content min-content;
-  grid-template-areas: "instructions instructions instructions" "score1 board score2";
+  grid-template-areas: "instructions instructions instructions instructions" "score1 board board score2";
   justify-items: center;
   align-items: center;
-  row-gap: 10vh;
+}
+@media screen and (orientation: portrait) {
+  body main {
+    grid-template-areas: "score1 instructions instructions score2" "board board board board";
+    row-gap: 3rem;
+  }
 }
 
 .instructions {
   display: grid;
+  white-space: nowrap;
   grid-area: instructions;
   color: white;
   font-size: 2rem;
   font-weight: 500;
+  margin-bottom: 10vh;
+}
+@media screen and (orientation: portrait) {
+  .instructions {
+    margin-bottom: 0;
+  }
 }
 .instructions > * {
   grid-column: 1;
@@ -50,8 +62,8 @@ body main {
 }
 
 .score {
-  height: 6.5vh;
-  width: 6.5vh;
+  height: 9vh;
+  width: 9vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,11 +75,13 @@ body main {
 .score.light-score {
   background-color: rgb(245, 238, 220);
   grid-area: score1;
+  margin-right: 10vh;
 }
 .score.brown-score {
   color: white;
   background-color: #472715;
   grid-area: score2;
+  margin-left: 10vh;
 }
 
 .checkboard {
@@ -77,8 +91,8 @@ body main {
   grid-area: board;
 }
 .checkboard .tile {
-  height: 6.5vh;
-  width: 6.5vh;
+  height: 9vh;
+  width: 9vh;
   display: grid;
   justify-items: center;
   align-items: center;
