@@ -18,7 +18,6 @@ for (let i = 0; i < 10; i++) {
             }  
         }
     }
-
 }
 
 //variables initialisation
@@ -29,6 +28,8 @@ let piece;
 let selecetd;
 let previewPiece;
 let previewMoves = [];
+let targetColumn;
+let targetRow;
 
 let board = [
     // 0: unplayable tile
@@ -58,6 +59,7 @@ class Piece {
         this.row = Math.floor(index / 10);
         this.color = board[this.row][this.column];
         this.direction = this.color === 1 ? 1:-1;
+        this.targets = [];
         this.possibleMoves = this.getPossibleMoves();
     }
 
@@ -90,8 +92,9 @@ class Piece {
         let possibleCaptures = [];
         let possibleCaptures2 = [];
 
-        if (row + direction * 2 >= 0 && row + direction * 2 <= 10) {
+        if (row + direction * 2 >= 0 && row + direction * 2 < 10) {
 
+            if (column - 1 >=  0 && column - 1 < 10)
             if (board[row + direction][column - 1] === oppositeColor) {
                 if (board[row + direction * 2][column - 2] === 3) possibleCaptures.push(referencePath.concat([(row + direction * 2) * 10 + column - 2]));
             }
@@ -102,7 +105,6 @@ class Piece {
             if (possibleCaptures !== []) {
                 possibleCaptures.forEach(capture => {
                     let testPiece = new Piece(capture[capture.length - 1]);
-                    console.log(testPiece);
                     testPiece.getPossibleCaptures(testPiece.row, testPiece.column, color, direction, capture).forEach(capture2 => {
                         possibleCaptures2.push(capture2);
                     })
@@ -123,12 +125,11 @@ class Piece {
 tiles.forEach((tile, index) => {
     tile.addEventListener('click', () => {
 
-        console.log(board);
-
         if (previewMoves.includes(index)) {
-            play(piece.index, index);
+            play(piece, index);
         } else {
             piece = new Piece(index);
+            console.log(piece.targets);
 
             if ((piece.color === 1 && whiteTurn) || (piece.color === 2 && !whiteTurn)) {
                 preview();
@@ -167,17 +168,34 @@ function preview() {
     })
 }
 
-function play(pointA, pointB) {
+function play(pieceA, pointB) {
 
-    departurePiece = new Piece(pointA);
-    destinationPiece = new Piece(pointB);
+    departurePiece = new Piece(pieceA.index);
 
-    board[departurePiece.row][departurePiece.column] = 3;
-    board[destinationPiece.row][destinationPiece.column] = whiteTurn ? 1:2;
+    pieceA.possibleMoves.forEach(moves => {
+        if (moves.includes(pointB)) {
+            moves.forEach(move => {
 
-    previewMoves = [];
+                move = new Piece(move);
 
-    updateBoard();
+                board[departurePiece.row][departurePiece.column] = 3;
+                board[move.row][move.column] = whiteTurn ? 1:2;
+
+                if (Math.abs(departurePiece.row - move.row) > 1) {
+                    targetRow = (departurePiece.row + move.row) / 2;
+                    targetColumn = (departurePiece.column + move.column) / 2;
+    
+                    board[targetRow][targetColumn] = 3;
+                }
+            
+                previewMoves = [];
+
+                departurePiece = move;
+            
+                updateBoard();
+            })
+        }
+    })
 
     whiteTurn = !whiteTurn;
 }
