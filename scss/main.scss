@@ -44,7 +44,7 @@ body {
         }
 
         .brown-piece {
-            background-color: brown;
+            background-color: #472715;
             opacity: 0;
         }
 
@@ -52,8 +52,16 @@ body {
             opacity: 1;
         }
 
+        &.preview-light .light-piece {
+            opacity: 0.3;
+        }
+
         &.brown .brown-piece {
             opacity: 1;
+        }
+
+        &.preview-brown .brown-piece {
+            opacity: 0.5;
         }
     }
 }

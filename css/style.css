@@ -41,14 +41,20 @@ body {
   opacity: 0;
 }
 .checkboard .tile .brown-piece {
-  background-color: brown;
+  background-color: #472715;
   opacity: 0;
 }
 .checkboard .tile.light .light-piece {
   opacity: 1;
 }
+.checkboard .tile.preview-light .light-piece {
+  opacity: 0.3;
+}
 .checkboard .tile.brown .brown-piece {
   opacity: 1;
+}
+.checkboard .tile.preview-brown .brown-piece {
+  opacity: 0.5;
 }
 
 /*# sourceMappingURL=style.css.map */
