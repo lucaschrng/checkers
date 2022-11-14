@@ -73,7 +73,8 @@ body main {
   scale: 0.85;
 }
 .score.light-score {
-  background-color: rgb(245, 238, 220);
+  background-size: cover;
+  background-color: rgb(222, 184, 135);
   grid-area: score1;
   margin-right: 10vh;
 }
