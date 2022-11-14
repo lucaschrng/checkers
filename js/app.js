@@ -39,6 +39,7 @@ for (let i = 0; i < boardSize; i++) {
 //variables initialisation
 
 let tiles = document.querySelectorAll('.tile');
+let gamePause = false;
 let whiteTurn = true;
 let oppositeColor;
 let previewPiece;
@@ -198,7 +199,7 @@ tiles.forEach((tile, index) => {
 
     tile.addEventListener('click', () => {
 
-        if (!gameOver) {
+        if (!gameOver && !gamePause) {
             if (previewMoves.includes(index)) {
 
                 play(piece, index);
@@ -207,7 +208,7 @@ tiles.forEach((tile, index) => {
 
                 selecetdPiece = new Piece(index);
     
-                if (((selecetdPiece.color === 1 || selecetdPiece.color === 6) && whiteTurn) || ((selecetdPiece.color === 2 || selecetdPiece.color === 7) && !whiteTurn)) {
+                if ((((selecetdPiece.color === 1 || selecetdPiece.color === 6) && whiteTurn) || ((selecetdPiece.color === 2 || selecetdPiece.color === 7) && !whiteTurn)) && !gamePause) {
                     piece = selecetdPiece;
                     preview();
                 }
@@ -221,7 +222,7 @@ tiles.forEach((tile, index) => {
 
         let hoverPiece = new Piece(index);
 
-        if (((hoverPiece.color === 1 || hoverPiece.color === 6) && whiteTurn) || ((hoverPiece.color === 2 || hoverPiece.color === 7) && !whiteTurn)) {
+        if ((((hoverPiece.color === 1 || hoverPiece.color === 6) && whiteTurn) || ((hoverPiece.color === 2 || hoverPiece.color === 7) && !whiteTurn) && !gamePause)) {
 
             if (hoverPiece.possibleMoves.length !== 0) {
                 document.querySelector('.piece' + index).classList.add('pointer');
@@ -264,6 +265,8 @@ function preview() {
 }
 
 function play(pieceA, pointB) {
+
+    gamePause = true;
 
     checkboard.style.zIndex = -1;
 
@@ -363,6 +366,7 @@ function play(pieceA, pointB) {
 
     setTimeout(() => {
         whiteTurn = !whiteTurn;
+        gamePause = false;
         checkboard.style.zIndex = null;
         updateInstructions();
     }, movingPath.length * 500);
