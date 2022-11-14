@@ -334,7 +334,7 @@ function play(pieceA, pointB) {
                 departurePiece = move;
             
                 updateBoard();
-            }, 310);
+            }, 400);
                 
             board[departurePiece.row][departurePiece.column] = 3;
             board[move.row][move.column] = pieceA.color;
@@ -358,7 +358,7 @@ function play(pieceA, pointB) {
                     document.querySelector(capturedPieceSelector).style.opacity = null;
                     board[targetRow][targetColumn] = 3;
                     updateBoard();
-                }, 310);
+                }, 350);
             }
 
         }, index * 500);
