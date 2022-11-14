@@ -24,6 +24,18 @@ for (let i = 0; i < boardSize; i++) {
     }
 }
 
+// let anim = anime({
+//     targets: '.piece17 .light-piece',
+//     translate: '9vh 9vh',
+//     duration: 500,
+//     easing: 'easeInOutSine'
+// })
+
+// setTimeout(() => {
+//     anim.pause;
+//     document.querySelector('.piece17 .light-piece').style.translate = '0 0';
+// }, 500);
+
 //variables initialisation
 
 let tiles = document.querySelectorAll('.tile');
@@ -253,6 +265,8 @@ function preview() {
 
 function play(pieceA, pointB) {
 
+    checkboard.style.zIndex = -1;
+
     departurePiece = new Piece(pieceA.index);
 
     let movingPath = [];
@@ -263,30 +277,95 @@ function play(pieceA, pointB) {
         }
     })
 
-    movingPath.forEach(move => {
+    updateBoard();
 
-        move = new Piece(move);
+    let selectors = [];
+    let selectorIndex = 0;
+    let direction;
 
-        board[departurePiece.row][departurePiece.column] = 3;
-        board[move.row][move.column] = pieceA.color;
+    movingPath.forEach((move, index) => {
 
-        if (Math.abs(departurePiece.row - move.row) > 1) {
-            let targetRow = (departurePiece.row + move.row) / 2;
-            let targetColumn = (departurePiece.column + move.column) / 2;
+        setTimeout(() => {
+            move = new Piece(move);
 
-            board[targetRow][targetColumn] = 3;
-        }
+            let movingPieceSelector = '.piece' + departurePiece.index + (whiteTurn ? ' .light-piece':' .brown-piece');
+            document.querySelector(movingPieceSelector).style.zIndex = '3';
+
+            selectors.push(movingPieceSelector);
+
+            let difference = departurePiece.index - move.index;
+            console.log(difference);
+            let distance = 9;
+
+            if (difference === 9) {
+                direction = '-' + distance + 'vh -' + distance + 'vh';
+            } else if (difference === 7) {
+                direction = distance + 'vh -' + distance + 'vh';
+            } else if (difference === 18) {
+                direction = '-' + 2*distance + 'vh -' + 2*distance + 'vh';
+            } else if (difference === 14) {
+                direction = 2*distance + 'vh -' + 2*distance + 'vh';
+            } else if (difference === -9) {
+                direction = distance + 'vh ' + distance + 'vh';
+            } else if (difference === -7) {
+                direction = '-' + distance + 'vh ' + distance + 'vh';
+            } else if (difference === -18) {
+                direction = 2*distance + 'vh ' + 2*distance + 'vh';
+            } else if (difference === -14) {
+                direction = '-' + 2*distance + 'vh ' + 2*distance + 'vh';
+            }
     
-        previewMoves = [];
+            anime({
+                targets: movingPieceSelector,
+                translate: direction,
+                duration: 300,
+                easing: 'easeOutSine'
+            });
 
-        departurePiece = move;
+            setTimeout(() => {
+                document.querySelector(selectors[selectorIndex]).style.translate = null;
+                document.querySelector(selectors[selectorIndex]).style.zIndex = null;
+
+                selectorIndex++;
+        
+                departurePiece = move;
+            
+                updateBoard();
+            }, 310);
+                
+            board[departurePiece.row][departurePiece.column] = 3;
+            board[move.row][move.column] = pieceA.color;
     
-        updateBoard();
+            if (Math.abs(departurePiece.row - move.row) > 1) {
+
+                let targetRow = (departurePiece.row + move.row) / 2;
+                let targetColumn = (departurePiece.column + move.column) / 2;
+
+                capturedPieceSelector = '.piece' + (targetRow * boardSize + targetColumn) + (!whiteTurn ? ' .light-piece':' .brown-piece');
+
+                anime({
+                    targets: capturedPieceSelector,
+                    opacity: 0,
+                    duration: 100,
+                    delay: 200,
+                    easing: 'easeOutSine'
+                })
+
+                setTimeout(() => {
+                    document.querySelector(capturedPieceSelector).style.opacity = null;
+                    board[targetRow][targetColumn] = 3;
+                    updateBoard();
+                }, 310);
+            }
+
+        }, index * 500);
     })
 
-    whiteTurn = !whiteTurn;
-
-    updateInstructions();
+    setTimeout(() => {
+        whiteTurn = !whiteTurn;
+        checkboard.style.zIndex = null;
+        updateInstructions();
+    }, movingPath.length * 500);
 }
 
 function updateBoard() {

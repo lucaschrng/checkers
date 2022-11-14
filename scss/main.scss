@@ -116,13 +116,13 @@ body {
         }
 
         > * {
+            box-sizing: content-box;
             position: relative;
-            height: 90%;
-            width: 90%;
+            height: 80%;
+            width: 80%;
             border-radius: 50%;
             grid-column: 1;
             grid-row: 1;
-            border: 4px black solid;
         }
 
         .light-piece {
@@ -179,13 +179,24 @@ body {
             }
         }
 
-        &.pointer, &.preview-light:hover, &.preview-brown:hover {
-            
+        &.light.pointer, 
+        &.brown.pointer, 
+        &.preview-light:hover, 
+        &.preview-brown:hover, 
+        &.light-queen.pointer:hover, 
+        &.brown-queen.pointer:hover {
             > * {
-                border: 4px green solid;
                 cursor: pointer;
             }
+        }
 
+        &.light.pointer .light-piece, 
+        &.brown.pointer .brown-piece, 
+        &.preview-light:hover .light-piece, 
+        &.light-queen.pointer:hover .light-piece, 
+        &.preview-brown:hover .brown-piece, 
+        &.brown-queen.pointer:hover .brown-piece {
+            border: 4px green solid;
         }
     }
 }

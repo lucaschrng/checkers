@@ -102,13 +102,13 @@ body main {
   background-color: black;
 }
 .checkboard .tile > * {
+  box-sizing: content-box;
   position: relative;
-  height: 90%;
-  width: 90%;
+  height: 80%;
+  width: 80%;
   border-radius: 50%;
   grid-column: 1;
   grid-row: 1;
-  border: 4px black solid;
 }
 .checkboard .tile .light-piece {
   background-color: rgba(222, 184, 135, 0);
@@ -154,9 +154,11 @@ body main {
   opacity: 0.4;
   scale: 0.7;
 }
-.checkboard .tile.pointer > *, .checkboard .tile.preview-light:hover > *, .checkboard .tile.preview-brown:hover > * {
-  border: 4px green solid;
+.checkboard .tile.light.pointer > *, .checkboard .tile.brown.pointer > *, .checkboard .tile.preview-light:hover > *, .checkboard .tile.preview-brown:hover > *, .checkboard .tile.light-queen.pointer:hover > *, .checkboard .tile.brown-queen.pointer:hover > * {
   cursor: pointer;
+}
+.checkboard .tile.light.pointer .light-piece, .checkboard .tile.brown.pointer .brown-piece, .checkboard .tile.preview-light:hover .light-piece, .checkboard .tile.light-queen.pointer:hover .light-piece, .checkboard .tile.preview-brown:hover .brown-piece, .checkboard .tile.brown-queen.pointer:hover .brown-piece {
+  border: 4px green solid;
 }
 
 /*# sourceMappingURL=style.css.map */
