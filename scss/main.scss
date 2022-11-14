@@ -1,4 +1,5 @@
 $boardSize: 8;
+$clr-brown: #b92222;
 
 * {
     margin: 0;
@@ -90,7 +91,7 @@ body {
 
     &.brown-score {
         color: white;
-        background-color: #472715;
+        background-color: $clr-brown;
         grid-area: score2;
         margin-left: 10vh;
     }
@@ -129,7 +130,7 @@ body {
         }
 
         .brown-piece {
-            background-color: rgba(71, 39, 21, 0);
+            background-color: rgba($clr-brown, 0);
         }
 
         &.light .light-piece {
@@ -137,7 +138,7 @@ body {
         }
 
         &.preview-light .light-piece {
-            background-color: rgba(222, 184, 135, 0.3);
+            background-color: rgba(222, 184, 135, 0.5);
         }
 
         &.light-queen .light-piece {
@@ -156,15 +157,15 @@ body {
         }
 
         &.brown .brown-piece {
-            background-color: rgba(71, 39, 21, 1);
+            background-color: rgba($clr-brown, 1);
         }
 
         &.preview-brown .brown-piece {
-            background-color: rgba(71, 39, 21, 0.5);
+            background-color: rgba($clr-brown, 0.6);
         }
 
         &.brown-queen .brown-piece {
-            background-color: rgba(71, 39, 21, 1);
+            background-color: rgba($clr-brown, 1);
 
             &::before {
                 content: '';

@@ -79,7 +79,7 @@ body main {
 }
 .score.brown-score {
   color: white;
-  background-color: #472715;
+  background-color: #b92222;
   grid-area: score2;
   margin-left: 10vh;
 }
@@ -114,13 +114,13 @@ body main {
   background-color: rgba(222, 184, 135, 0);
 }
 .checkboard .tile .brown-piece {
-  background-color: rgba(71, 39, 21, 0);
+  background-color: rgba(185, 34, 34, 0);
 }
 .checkboard .tile.light .light-piece {
   background-color: rgb(222, 184, 135);
 }
 .checkboard .tile.preview-light .light-piece {
-  background-color: rgba(222, 184, 135, 0.3);
+  background-color: rgba(222, 184, 135, 0.5);
 }
 .checkboard .tile.light-queen .light-piece {
   background-color: rgb(222, 184, 135);
@@ -136,13 +136,13 @@ body main {
   scale: 0.7;
 }
 .checkboard .tile.brown .brown-piece {
-  background-color: rgb(71, 39, 21);
+  background-color: #b92222;
 }
 .checkboard .tile.preview-brown .brown-piece {
-  background-color: rgba(71, 39, 21, 0.5);
+  background-color: rgba(185, 34, 34, 0.6);
 }
 .checkboard .tile.brown-queen .brown-piece {
-  background-color: rgb(71, 39, 21);
+  background-color: #b92222;
 }
 .checkboard .tile.brown-queen .brown-piece::before {
   content: "";
