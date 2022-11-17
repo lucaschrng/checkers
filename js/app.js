@@ -80,6 +80,15 @@ let board = [
     [2, 0, 2, 0, 2, 0, 2, 0],
     [0, 2, 0, 2, 0, 2, 0, 2],
     [2, 0, 2, 0, 2, 0, 2, 0]
+
+    // [0, 3, 0, 3, 0, 3, 0, 3],
+    // [3, 0, 3, 0, 3, 0, 3, 0],
+    // [0, 3, 0, 3, 0, 3, 0, 3],
+    // [3, 0, 1, 0, 3, 0, 3, 0],
+    // [0, 3, 0, 2, 0, 3, 0, 3],
+    // [3, 0, 3, 0, 3, 0, 3, 0],
+    // [0, 3, 0, 3, 0, 3, 0, 3],
+    // [3, 0, 3, 0, 3, 0, 3, 0]
 ]
 
 //class initialisation
@@ -297,42 +306,35 @@ function play(pieceA, pointB) {
             selectors.push(movingPieceSelector);
 
             let difference = departurePiece.index - move.index;
-            console.log(difference);
             let distance = 9;
 
             if (difference === 9) {
-                direction = '-' + distance + 'vh -' + distance + 'vh';
+                direction = 'UL1'
             } else if (difference === 7) {
-                direction = distance + 'vh -' + distance + 'vh';
+                direction = 'UR1';
             } else if (difference === 18) {
-                direction = '-' + 2*distance + 'vh -' + 2*distance + 'vh';
+                direction = 'UL2';
             } else if (difference === 14) {
-                direction = 2*distance + 'vh -' + 2*distance + 'vh';
+                direction = 'UR2';
             } else if (difference === -9) {
-                direction = distance + 'vh ' + distance + 'vh';
+                direction = 'DR1';
             } else if (difference === -7) {
-                direction = '-' + distance + 'vh ' + distance + 'vh';
+                direction = 'DL1';
             } else if (difference === -18) {
-                direction = 2*distance + 'vh ' + 2*distance + 'vh';
+                direction = 'DR2';
             } else if (difference === -14) {
-                direction = '-' + 2*distance + 'vh ' + 2*distance + 'vh';
+                direction = 'DL2';
             }
-    
-            anime({
-                targets: movingPieceSelector,
-                translate: direction,
-                duration: 300,
-                easing: 'easeOutSine'
-            });
+
+            document.querySelector(selectors[selectorIndex]).style.animationName = direction;
 
             setTimeout(() => {
-                document.querySelector(selectors[selectorIndex]).style.translate = null;
+                document.querySelector(selectors[selectorIndex]).style.animationName = null;
                 document.querySelector(selectors[selectorIndex]).style.zIndex = null;
 
                 selectorIndex++;
         
                 departurePiece = move;
-            
                 updateBoard();
             }, 400);
                 
@@ -346,19 +348,13 @@ function play(pieceA, pointB) {
 
                 capturedPieceSelector = '.piece' + (targetRow * boardSize + targetColumn) + (!whiteTurn ? ' .light-piece':' .brown-piece');
 
-                anime({
-                    targets: capturedPieceSelector,
-                    opacity: 0,
-                    duration: 100,
-                    delay: 200,
-                    easing: 'easeOutSine'
-                })
+                document.querySelector(capturedPieceSelector).style.animationName = 'capture';
 
                 setTimeout(() => {
-                    document.querySelector(capturedPieceSelector).style.opacity = null;
+                    document.querySelector(capturedPieceSelector).style.animationName = null;
                     board[targetRow][targetColumn] = 3;
                     updateBoard();
-                }, 350);
+                }, 400);
             }
 
         }, index * 500);
@@ -369,12 +365,10 @@ function play(pieceA, pointB) {
         gamePause = false;
         checkboard.style.zIndex = null;
         updateInstructions();
-    }, movingPath.length * 500);
+    }, movingPath.length * 400);
 }
 
 function updateBoard() {
-
-    console.log(board);
 
     lightPoints = boardSize / 2 * 3;
     brownPoints = boardSize / 2 * 3;
@@ -436,6 +430,7 @@ function updateBoard() {
 
     if (lightPoints === boardSize / 2 * 3 || brownPoints === boardSize / 2 * 3) {
         gameOver = true;
+        updateInstructions();
     }
 }
 

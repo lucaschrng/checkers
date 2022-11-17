@@ -110,6 +110,8 @@ body main {
   border-radius: 50%;
   grid-column: 1;
   grid-row: 1;
+  animation-duration: 400ms;
+  animation-timing-function: ease-out;
 }
 .checkboard .tile .light-piece {
   background-color: rgba(222, 184, 135, 0);
@@ -160,6 +162,85 @@ body main {
 }
 .checkboard .tile.light.pointer .light-piece, .checkboard .tile.brown.pointer .brown-piece, .checkboard .tile.preview-light:hover .light-piece, .checkboard .tile.light-queen.pointer:hover .light-piece, .checkboard .tile.preview-brown:hover .brown-piece, .checkboard .tile.brown-queen.pointer:hover .brown-piece {
   border: 4px green solid;
+}
+
+@keyframes UL1 {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: -9vh -9vh;
+  }
+}
+@keyframes UR1 {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 9vh -9vh;
+  }
+}
+@keyframes UL2 {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: -18vh -18vh;
+  }
+}
+@keyframes UR2 {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 18vh -18vh;
+  }
+}
+@keyframes DR1 {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 9vh 9vh;
+  }
+}
+@keyframes DL1 {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: -9vh 9vh;
+  }
+}
+@keyframes DR2 {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 18vh 18vh;
+  }
+}
+@keyframes DL2 {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: -18vh 18vh;
+  }
+}
+@keyframes capture {
+  0% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
